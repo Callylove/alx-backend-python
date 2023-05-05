@@ -1,14 +1,27 @@
 #!/usr/bin/env python3
-""" function calculates the time of execution of wait_n"""
+"""
+Module with function that measures the total execution time for an 
+imported module wait_n(n, max_delay)
+"""
+
+import asyncio
+import time
 
 wait_n = __import__('1-concurrent_coroutines').wait_n
 
 
 def measure_time(n: int, max_delay: int) -> float:
-    """ calculates the time of execution of wait_n
-    with the  help of time.perf_counter
-    which gives us the start time and end time"""
-    s = time.perf_counter()
-    wait_n(n, max_delay)
-    execution_time = time.pref_counter() - s
-    return execution_time
+    """
+    returns total_time/n
+    """
+    start_time = time.perf_counter()
+    asyncio.run(wait_n(n, max_delay))
+    end_time = time.perf_counter()
+
+    return (end_time - start_time) / n
+
+
+if __name__ == '__main__':
+    n = 5
+    max_delay = 9
+    print(measure_time(n, max_delay))
